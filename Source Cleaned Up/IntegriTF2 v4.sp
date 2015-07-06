@@ -70,13 +70,13 @@ WriteFileLine(hFile, "\"STEAM_0:0:10384388\" \"IP\""); //KittyKatty, Mittens Alt
 WriteFileLine(hFile, "\t//Players Banned for Sportmanship/Behavioral issues");
 
 //Season 15
-WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"75.80.160.121\""); //Typho
-WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"76.93.167.249\""); //Typho
-WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"72.130.191.239\""); //Typho
+WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"IP\""); //Typho
+WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"IP\""); //Typho
+WriteFileLine(hFile, "\"STEAM_0:0:48847930\" \"IP\""); //Typho
 WriteFileLine(hFile, "\"STEAM_0:0:45581793\" \"IP\""); //apple //NO IP
-WriteFileLine(hFile, "\"STEAM_0:0:29038647\" \"74.96.231.197\""); //iShank
-WriteFileLine(hFile, "\"STEAM_0:0:55194042\" \"188.79.171.35\""); //Sl4w
-WriteFileLine(hFile, "\"STEAM_0:1:76940024\" \"69.132.3.168\""); //PinkCommando
+WriteFileLine(hFile, "\"STEAM_0:0:29038647\" \"IP\""); //iShank
+WriteFileLine(hFile, "\"STEAM_0:0:55194042\" \"IP\""); //Sl4w
+WriteFileLine(hFile, "\"STEAM_0:1:76940024\" \"IP\""); //PinkCommando
 
 //Season 16
 WriteFileLine(hFile, "\"STEAM_0:1:50245576\" \"IP\""); //Discario
