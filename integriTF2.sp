@@ -9,7 +9,7 @@
 
 public Plugin myinfo = {
 	name        = "IntegriTF2",
-	author      = "Miggy and friends",
+	author      = "Miggy, mizx and friends",
 	description = "Plugin that verifies the integrity of the Server and Player settings.",
 	version		= PLUGIN_VERSION,
 	url         = "miggthulu.com"
