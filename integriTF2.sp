@@ -26,22 +26,29 @@ ConVar g_CvarCloakUnInvisTime;
 ConVar g_CvarBackstabMethod;
 ConVar g_CvarDroppedWeaponLifetime;
 
-void SetConVars()
+void initConVar(ConVar convar)
 {
-	g_CvarDmgMultiBlu.RestoreDefault(true, true);
-	g_CvarDmgMultiRed.RestoreDefault(true, true);
+	convar.AddChangeHook(OnConVarChanged);
+	resetConVar(convar);
+}
+
+void resetConVar(ConVar convar)
+{
+	if (convar == g_CvarTeleFovStart)
+	{
+		// if convar is TeleFovStart, change to 90 from default of 120
+		// the exploit allows users to keep 120 after teleporting
+		convar.SetInt(90, true, true);
+	}
+	else
+	{
+		convar.RestoreDefault(true, true);
+	}
 	
-	g_CvarTeleFovStart.SetInt(90, true, true); // default is 120, change to 90 - exploit allows users to keep 120
-	g_CvarTeleFovTime.RestoreDefault(true, true);
-	
-	g_CvarCloakConsumeRate.RestoreDefault(true, true);
-	g_CvarCloakRegenRate.RestoreDefault(true, true);
-	g_CvarCloakAttackTime.RestoreDefault(true, true);
-	g_CvarCloakInvisTime.RestoreDefault(true, true);
-	g_CvarBackstabMethod.RestoreDefault(true, true);
-	setConVarCheat(g_CvarBackstabMethod);
-	
-	g_CvarDroppedWeaponLifetime.RestoreDefault(true, true);
+	if (convar == g_CvarBackstabMethod)
+	{
+		setConVarCheat(convar);
+	}
 }
 
 public void OnPluginStart()
@@ -53,11 +60,14 @@ public void OnPluginStart()
 	/** Team Based Exploits **/
 	g_CvarDmgMultiBlu = FindConVar("tf_damage_multiplier_blue");
 	g_CvarDmgMultiRed = FindConVar("tf_damage_multiplier_red");
-	
+	initConVar(g_CvarDmgMultiBlu);
+	initConVar(g_CvarDmgMultiRed);
 	
 	/** Engineer Tele Exploit Fix **/
 	g_CvarTeleFovStart = FindConVar("tf_teleporter_fov_start");
 	g_CvarTeleFovTime = FindConVar("tf_teleporter_fov_time");
+	initConVar(g_CvarTeleFovStart);
+	initConVar(g_CvarTeleFovTime);
 	
 	/** Spy Cloak Exploit Prevention **/
 	g_CvarCloakConsumeRate = FindConVar("tf_spy_cloak_consume_rate");
@@ -66,13 +76,15 @@ public void OnPluginStart()
 	g_CvarCloakInvisTime = FindConVar("tf_spy_invis_time");
 	g_CvarCloakUnInvisTime = FindConVar("tf_spy_invis_unstealth_time");
 	g_CvarBackstabMethod = FindConVar("tf_backstab_detection_method");
-	
-	g_CvarBackstabMethod = FindConVar("tf_backstab_detection_method");
-	setConVarCheat(g_CvarBackstabMethod);
+	initConVar(g_CvarCloakConsumeRate);
+	initConVar(g_CvarCloakRegenRate);
+	initConVar(g_CvarCloakAttackTime);
+	initConVar(g_CvarCloakInvisTime);
+	initConVar(g_CvarCloakUnInvisTime);
+	initConVar(g_CvarBackstabMethod);
 	
 	g_CvarDroppedWeaponLifetime = FindConVar("tf_dropped_weapon_lifetime");
-    
-	SetConVars();
+	initConVar(g_CvarDroppedWeaponLifetime);
 
 	PrintToChatAll("IntegriTF2 has been loaded.");
 }
@@ -82,18 +94,18 @@ void setConVarCheat(ConVar convar)
 	convar.Flags = convar.Flags |= FCVAR_CHEAT;
 }
 
-public void OnConVarChange(ConVar convar, char[] oldValue, char[] newValue)
+public void OnConVarChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-	char convarVal[PLATFORM_MAX_PATH];
-	char convarName[PLATFORM_MAX_PATH];
-	convar.GetDefault(convarVal, strlen(convarVal));
+	char convarDefault[32];
+	char convarName[64];
+	convar.GetDefault(convarDefault, strlen(convarDefault));
 	convar.GetName(convarName, strlen(convarName));
 	
-	if ( ! StrCompare(newValue, convarVal, false))
+	if ( ! StrCompare(newValue, convarDefault, false))
 	{
-		PrintToChatAll("IntegriTF2: Attempt to change cvar %s to %s (default %s), reverting changes...", convarName, newValue, convarVal);
+		PrintToChatAll("IntegriTF2: Attempt to change cvar %s to %s (default %s), reverting changes...", convarName, newValue, convarDefault);
 	}
-	// TODO: Revert changes
+	resetConVar(convar);
 }
  
 
@@ -107,11 +119,7 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
 	PrintToChatAll("This Server is running IntegriTF2 version 1.2");
 	return Plugin_Continue;
 }
-/**		     	   **/
 
-/**********************************************************************************************/
-
-/**r_drawothermodels 2 check part 2**/
 public Action Event_player_spawn(Handle event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
