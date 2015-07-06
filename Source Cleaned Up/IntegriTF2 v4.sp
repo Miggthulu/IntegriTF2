@@ -2,6 +2,8 @@
 #include <sourcemod>
 #include <clients>
 #define CONFIG_PATH "configs/IntCfg.cfg"
+#include <geoipcity>
+#pragma newdecls required
 
 public Plugin:myinfo = {
 	name        = "IntegriTF2",
@@ -148,7 +150,7 @@ SetConVarInt(FindConVar("tf_teleporter_fov_start"), 90, true);
 SetConVarFloat(FindConVar("tf_teleporter_fov_time"), 0.5, true);
 
 
-///Spy Cloak CVar lockdown//
+//Spy Cloak CVar lockdown//
 SetConVarInt(FindConVar("tf_spy_cloak_consume_rate"), 10, true);
 SetConVarFloat(FindConVar("tf_spy_cloak_regen_rate"),  3.3, true);
 SetConVarFloat(FindConVar("tf_spy_cloak_no_attack_time"), 2.0, true);
@@ -243,6 +245,21 @@ else if (StringToInt(cvarValue) == 2)
 PrintToChatAll("Player %N is using CVar %s = %s", client, cvarName, cvarValue);
 } 
 }  
+
+/**********************************************************************************************/
+//Proxy Checker
+
+public void OnClientConnected(int client) {
+        char ip[17], city[45], region[45], country_name[45], country_code[3], country_code3[4];
+        GetClientIP(client, ip, sizeof(ip));
+        GeoipGetRecord(ip, city, region, country_name, country_code, country_code3);
+		PrintToChatAll("Player %s is connecting from %s  %s  %s", client, country_name, country_code, country_code3);
+        if(StrContains(country_name, "Anonymous", false) != -1 || StrContains(country_name, "Proxy", false) != -1) {
+                PrintToChatAll("intgreTF2: detecting %N is using a proxy.", client);
+        }
+       // player is not using a proxy
+}
+
 
 /**********************************************************************************************/
 
