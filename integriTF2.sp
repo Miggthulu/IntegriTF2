@@ -33,9 +33,7 @@ int g_DroppedWeaponLifetime = 0;
 void initConVar(ConVar convar)
 {
 	if (convar == INVALID_HANDLE)
-	{
 		return;
-	}
 	convar.AddChangeHook(OnConVarChanged);
 	resetConVar(convar);
 }
@@ -49,13 +47,9 @@ void resetConVar(ConVar convar)
 		convar.SetInt(g_TeleFovStart, true, true);
 	}
 	else if (convar == g_CvarDroppedWeaponLifetime)
-	{
 		convar.SetInt(0, true, true);
-	}
 	else
-	{
 		convar.RestoreDefault(true, true);
-	}
 }
 
 public void OnPluginStart()
@@ -91,7 +85,7 @@ public void OnPluginStart()
 	g_CvarDroppedWeaponLifetime = FindConVar("tf_dropped_weapon_lifetime");
 	initConVar(g_CvarDroppedWeaponLifetime);
 
-	PrintToChatAll("IntegriTF2 has been loaded.");
+	PrintToChatAll("[IntegriTF2] has been loaded.");
 }
 
 void setConVarCheat(ConVar convar)
@@ -117,7 +111,7 @@ public void OnConVarChanged(ConVar convar, char[] oldValue, char[] newValue)
 	
 	if (StringToInt(convarDefault) != StringToInt(newValue))
 	{
-		PrintToChatAll("IntegriTF2: Attempt to change cvar %s to %s (looking for %s), reverting changes...", convarName, newValue, convarDefault);
+		PrintToChatAll("[IntegriTF2] Attempt to change cvar %s to %s (looking for %s), reverting changes...", convarName, newValue, convarDefault);
 		resetConVar(convar);
 	}
 }
@@ -129,13 +123,13 @@ public void OnClientAuthorized(int client, const char[] sAuth)
 	GeoipGetRecord(ip, city, region, country_name, country_code, country_code3);
 	
 	if (StrContains(country_name, "United States", false) != -1 || StrContains(country_name, "Proxy", false) != -1) {
-		PrintToChatAll("IntegriTF2: Detecting player %N is using a proxy.", client);
+		PrintToChatAll("[IntegriTF2] Detecting player %N is using a proxy.", client);
 	}
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-	PrintToChatAll("This Server is running IntegriTF2 version %s", PLUGIN_VERSION);
+	PrintToChatAll("[IntegriTF2] This Server is running IntegriTF2 version %s", PLUGIN_VERSION);
 	return Plugin_Continue;
 }
 
@@ -148,21 +142,16 @@ public Action Event_Player_Spawn(Handle event, const char[] name, bool dontBroad
 
 public void ClientConVar(QueryCookie cookie, int client, ConVarQueryResult result, const char[] cvarName, const char[] cvarValue, any value) 
 { 
-	char ClientName[64];
-	GetClientName(client, ClientName, 64);
-	
 	if (client == 0 || !IsClientInGame(client)) 
-	return; 
+		return; 
+	
 	if (result != ConVarQuery_Okay) 
-	KickClient(client, "Unable to query %s", cvarName); 
+		PrintToChatAll("[IntegriTF2] Unable to check CVar %s on player %N.", cvarName, client);
 	else if (StringToInt(cvarValue) == 2)
-	{
-	PrintToChatAll("Player %N is using CVar %s = %s", client, cvarName, cvarValue);
-	} 
+		PrintToChatAll("[IntegriTF2] Player %N is using CVar %s = %s, potentially exploiting.", client, cvarName, cvarValue); 
 }  
 
-/**Informs players if someone with RCON access disables plugin**/
 public void OnPluginEnd()
 {
-	PrintToChatAll("IntegriTF2 has been unloaded");
+	PrintToChatAll("[IntegriTF2] has been unloaded.");
 }
