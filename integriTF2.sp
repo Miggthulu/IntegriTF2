@@ -122,13 +122,8 @@ public void OnClientAuthorized(int client, const char[] sAuth)
 	GetClientIP(client, ip, sizeof(ip));
 	GeoipGetRecord(ip, city, region, country_name, country_code, country_code3);
 	
-<<<<<<< HEAD
-	if (StrContains(country_name, "United States", false) != -1 || StrContains(country_name, "Proxy", false) != -1) {
-		PrintToChatAll("[IntegriTF2] Detecting player %N is using a proxy.", client);
-=======
 	if (StrContains(country_name, "Anonymous", false) != -1 || StrContains(country_name, "Proxy", false) != -1) {
 		PrintToChatAll("IntegriTF2: Detecting player %N is using a proxy.", client);
->>>>>>> origin/2.0
 	}
 }
 
