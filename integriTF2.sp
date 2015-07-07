@@ -30,6 +30,9 @@ ConVar g_CvarDroppedWeaponLifetime;
 int g_TeleFovStart = 90;
 int g_DroppedWeaponLifetime = 0;
 
+float g_CheckClientConVarsMin = 15.0;
+float g_CheckClientConVarsMax = 60.0;
+
 void initConVar(ConVar convar)
 {
 	if (convar == INVALID_HANDLE)
@@ -84,11 +87,13 @@ public void OnPluginStart()
 	
 	g_CvarDroppedWeaponLifetime = FindConVar("tf_dropped_weapon_lifetime");
 	initConVar(g_CvarDroppedWeaponLifetime);
+	
+	CreateTimer(5.0, Timer_CheckClientConVars);
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
 }
 
-void setConVarCheat(ConVar convar)
+stock setConVarCheat(ConVar convar)
 {
 	convar.Flags = convar.Flags |= FCVAR_CHEAT;
 }
@@ -136,7 +141,7 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
 public Action Event_Player_Spawn(Handle event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar, client);
+	QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar);
 	return Plugin_Continue;
 }
 
@@ -149,9 +154,23 @@ public void ClientConVar(QueryCookie cookie, int client, ConVarQueryResult resul
 		PrintToChatAll("[IntegriTF2] Unable to check CVar %s on player %N.", cvarName, client);
 	else if (StringToInt(cvarValue) == 2)
 		PrintToChatAll("[IntegriTF2] Player %N is using CVar %s = %s, potentially exploiting.", client, cvarName, cvarValue); 
-}  
+}
+
+public Action:Timer_CheckClientConVars(Handle:timer)
+{
+	for (new client = 1; client <= MaxClients; client++)
+	{
+		if (IsClientInGame(client) && !IsFakeClient(client) && IsPlayerAlive(client))
+		{
+			QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar, client);
+		}
+	}
+	CloseHandle(timer);
+	CreateTimer(GetRandomFloat(g_CheckClientConVarsMin, g_CheckClientConVarsMax), Timer_CheckClientConVars);
+}
 
 public void OnPluginEnd()
 {
+	
 	PrintToChatAll("[IntegriTF2] has been unloaded.");
 }
