@@ -3,7 +3,7 @@
 #include <clients>
 #include <geoipcity>
 #include <socket>
-#include <json>
+#include <smjansson>
 
 #define PLUGIN_VERSION "2.0"
 
@@ -11,6 +11,12 @@
 
 #define API_BANLIST_HOST "kimonolabs.com"
 #define API_BANLIST_DIR "/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
+
+#define MAX_URL_LENGTH 256
+#define API_BANLIST_URL "http://kimonolabs.com/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
+
+#include "helpers/download_socket.sp"
+#include "helpers/filesys.sp"
 
 public Plugin myinfo = {
 	name        = "IntegriTF2",
@@ -183,38 +189,18 @@ public void OnPluginEnd()
 
 void CheckBanlistApi()
 {
-	new Handle:hData = CreateDataPack();
-	new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
+	Download_Socket(API_BANLIST_URL, "ugc_banlist.json");
+	//new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
 	
-	SocketSetArg(hSocket, hData);
-	SocketConnect(hSocket, OnSocketConnected, OnSocketReceived, OnSocketDisconnected, "kimonolabs.com", 80);
+	//SocketSetArg(hSocket, hFile);
+	//SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "kimonolabs.com", 80);
 }
 
-public OnSocketConnected(Handle:hSocket, any:hData)
+void DownloadEnded(bool successful, char error[]="")
 {
-	char request[256];
+	if ( ! successful) {
+		LogError("Download attempt failed: %s", error);
+		return;
+	}
 	
-	Format(request, sizeof(request), "GET %s HTTP/1.0\r\nHost: %s\r\nConnection: close\r\n\r\n", API_BANLIST_DIR, API_BANLIST_HOST);
-	SocketSend(hSocket, request);
-	PrintToChatAll("onSocketConnected");
-}
-
-public OnSocketReceived(Handle:hSocket, String:receiveData[], const dataSize, any:hData)
-{
-	PrintToChatAll("OnSocketReceive");
-	PrintToChatAll(receiveData);
-}
-
-public OnSocketDisconnected(Handle:hSocket, any:hData)
-{
-	PrintToChatAll("OnSocketDisconnect");
-	CloseHandle(hSocket);
-	CloseHandle(hData);
-}
-
-public OnSocketError(Handle:hSocket, const errorType, const errorNum, any:hData)
-{
-	LogError("Socket Error %d (errno %d)", errorType, errorNum);
-	CloseHandle(hData);
-	CloseHandle(hSocket);
 }
