@@ -4,6 +4,9 @@
 #include <geoipcity>
 #include <socket>
 #include <smjansson>
+#undef REQUIRE_PLUGIN
+#include <updater>
+#def REQUIRE_PLUGIN
 
 #define PLUGIN_VERSION "2.0"
 
@@ -11,6 +14,8 @@
 
 #define API_BANLIST_HOST "kimonolabs.com"
 #define API_BANLIST_DIR "/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
+
+#define UPDATE_URL "http://miggthulu.com/integritf2/updatefile.txt"
 
 #define MAX_URL_LENGTH 256
 #define API_BANLIST_URL "http://kimonolabs.com/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
@@ -102,8 +107,21 @@ public void OnPluginStart()
 	CreateTimer(5.0, Timer_CheckClientConVars);
 	
 	CheckBanlistApi();
+	
+	if (LibraryExists("updater"))
+	{
+		Updater_AddPlugin(UPDATE_URL)
+	}
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
+}
+
+public OnLibraryAdded(const String:name[])
+{
+	if (StrEqual(name, "updater"))
+	{
+		Updater_AddPlugin(UPDATE_URL)
+	}
 }
 
 stock setConVarCheat(ConVar convar)
