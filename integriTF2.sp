@@ -194,7 +194,7 @@ public Action:Timer_CheckClientConVars(Handle:timer)
 			QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar, client);
 		}
 	}
-	CloseHandle(timer);
+	
 	CreateTimer(GetRandomFloat(g_CheckClientConVarsMin, g_CheckClientConVarsMax), Timer_CheckClientConVars);
 }
 
