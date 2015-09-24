@@ -2,13 +2,13 @@
 /* File System Parsers */
 
 // Strip filename from path.
-StripPathFilename(String:path[])
+stock StripPathFilename(String:path[])
 {
 	strcopy(path, FindCharInString(path, '/', true) + 1, path);
 }
 
 // Return the filename and extension from a given path.
-GetPathBasename(String:path[], String:buffer[], maxlength)
+stock GetPathBasename(String:path[], String:buffer[], maxlength)
 {
 	new check = -1;
 	if ((check = FindCharInString(path, '/', true)) != -1 ||
@@ -23,7 +23,7 @@ GetPathBasename(String:path[], String:buffer[], maxlength)
 }
 
 // Add http protocol to url if it's missing.
-PrefixURL(String:buffer[], maxlength, const String:url[])
+stock PrefixURL(String:buffer[], maxlength, const String:url[])
 {
 	if (strncmp(url, "http://", 7) != 0 && strncmp(url, "https://", 8) != 0)
 	{
@@ -36,7 +36,7 @@ PrefixURL(String:buffer[], maxlength, const String:url[])
 }
 
 // Split URL into hostname, location, and filename. No trailing slashes.
-ParseURL(const String:url[], String:host[], maxHost, String:location[], maxLoc, String:filename[], maxName)
+stock ParseURL(const String:url[], String:host[], maxHost, String:location[], maxLoc, String:filename[], maxName)
 {
 	// Strip url prefix.
 	new idx = StrContains(url, "://");
@@ -60,7 +60,7 @@ ParseURL(const String:url[], String:host[], maxHost, String:location[], maxLoc, 
 }
 
 // Converts Updater SMC file paths into paths relative to the game folder.
-ParseSMCPathForLocal(const String:path[], String:buffer[], maxlength)
+stock ParseSMCPathForLocal(const String:path[], String:buffer[], maxlength)
 {
 	decl String:dirs[16][64];
 	new total = ExplodeString(path, "/", dirs, sizeof(dirs), sizeof(dirs[]));
@@ -90,7 +90,7 @@ ParseSMCPathForLocal(const String:path[], String:buffer[], maxlength)
 }
 
 // Converts Updater SMC file paths into paths relative to the plugin's update URL.
-ParseSMCPathForDownload(const String:path[], String:buffer[], maxlength)
+stock ParseSMCPathForDownload(const String:path[], String:buffer[], maxlength)
 {
 	decl String:dirs[16][64];
 	new total = ExplodeString(path, "/", dirs, sizeof(dirs), sizeof(dirs[]));
@@ -111,7 +111,7 @@ static Handle:SMC_DataTrie;
 static Handle:SMC_DataPack;
 static SMC_LineNum;
 
-bool:ParseUpdateFile(index, const String:path[])
+stock bool:ParseUpdateFile(index, const String:path[])
 {
 	/* Return true if an update was available. */
 	SMC_Sections = CreateArray(64);
@@ -283,7 +283,7 @@ bool:ParseUpdateFile(index, const String:path[])
 	return bUpdate;
 }
 
-ParseSMCFilePack(index, Handle:hPack, Handle:hFiles)
+stock ParseSMCFilePack(index, Handle:hPack, Handle:hFiles)
 {
 	// Prepare URL
 	decl String:urlprefix[MAX_URL_LENGTH], String:url[MAX_URL_LENGTH], String:dest[PLATFORM_MAX_PATH], String:sBuffer[MAX_URL_LENGTH];
