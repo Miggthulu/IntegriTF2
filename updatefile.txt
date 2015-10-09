@@ -4,7 +4,7 @@
 	{
 		"Version"
 		{
-			"Latest"	"2.1"
+			"Latest"	"2.0"
 		}
 		
 		"Notes"	"More info @ miggthulu.com/integritf2    Changes in 2.0:"
