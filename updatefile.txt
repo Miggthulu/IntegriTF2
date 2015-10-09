@@ -4,7 +4,7 @@
 	{
 		"Version"
 		{
-			"Latest"	"2.0"
+			"Latest"	"2.1"
 		}
 		
 		"Notes"	"More info @ miggthulu.com/integritf2    Changes in 2.0:"
@@ -13,7 +13,35 @@
 	
 	"Files"
 	{
-		"Plugin"	"plugins/IntegriTF2.smx"	
-		"Source"	"scripting/IntegriTF2.sp"
+		"Plugin"	"Path_SM/plugins/IntegriTF2.smx"	
+		"Source"	"Path_SM/scripting/IntegriTF2.sp"
+		"Plugin"  	"/cfg/item_whitelist_ugc_hl.txt"
+		"Plugin"  	"/cfg/item_whitelist_ugc_6v6.txt"
+		"Plugin"  	"/cfg/item_whitelist_ugc_4v4.txt"
+		"Plugin"	"cfg/ugc_off.cfg"
+		"Plugin"	"cfg/ugc_hl_base.cfg"
+		"Plugin"	"cfg/ugc_hl_custom.cfg"
+		"Plugin"	"cfg/ugc_hl_golden.cfg"
+		"Plugin"	"cfg/ugc_hl_koth.cfg"
+		"Plugin"	"cfg/ugc_hl_koth_overtime.cfg"
+		"Plugin"	"cfg/ugc_hl_standard.cfg"
+		"Plugin"	"cfg/ugc_hl_standard_overtime.cfg"
+		"Plugin"	"cfg/ugc_hl_stopwatch.cfg"
+		"Plugin"	"cfg/ugc_6v_base.cfg"
+		"Plugin"	"cfg/ugc_6v_custom.cfg"
+		"Plugin"	"cfg/ugc_6v_golden.cfg"
+		"Plugin"	"cfg/ugc_6v_koth.cfg"
+		"Plugin"	"cfg/ugc_6v_koth_overtime.cfg"
+		"Plugin"	"cfg/ugc_6v_standard.cfg"
+		"Plugin"	"cfg/ugc_6v_standard_overtime.cfg"
+		"Plugin"	"cfg/ugc_6v_stopwatch.cfg"
+		"Plugin"	"cfg/ugc_4v_base.cfg"
+		"Plugin"	"cfg/ugc_4v_custom.cfg"
+		"Plugin"	"cfg/ugc_4v_golden.cfg"
+		"Plugin"	"cfg/ugc_4v_koth.cfg"
+		"Plugin"	"cfg/ugc_4v_koth_overtime.cfg"
+		"Plugin"	"cfg/ugc_4v_standard.cfg"
+		"Plugin"	"cfg/ugc_4v_standard_overtime.cfg"
+		"Plugin"	"cfg/ugc_4v_stopwatch.cfg"
 	}
 }
