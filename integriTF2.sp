@@ -1,12 +1,10 @@
 #pragma semicolon 1
 #include <sourcemod>
-#include <clients>
 #include <geoipcity>
 #include <socket>
 #include <smjansson>
 #undef REQUIRE_PLUGIN
 #include <updater>
-#def REQUIRE_PLUGIN
 
 #define PLUGIN_VERSION "2.0"
 
@@ -110,7 +108,7 @@ public void OnPluginStart()
 	
 	if (LibraryExists("updater"))
 	{
-		Updater_AddPlugin(UPDATE_URL)
+		Updater_AddPlugin(UPDATE_URL);
 	}
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
@@ -120,7 +118,7 @@ public OnLibraryAdded(const String:name[])
 {
 	if (StrEqual(name, "updater"))
 	{
-		Updater_AddPlugin(UPDATE_URL)
+		Updater_AddPlugin(UPDATE_URL);
 	}
 }
 
@@ -196,7 +194,7 @@ public Action:Timer_CheckClientConVars(Handle:timer)
 			QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar, client);
 		}
 	}
-	CloseHandle(timer);
+	
 	CreateTimer(GetRandomFloat(g_CheckClientConVarsMin, g_CheckClientConVarsMax), Timer_CheckClientConVars);
 }
 
