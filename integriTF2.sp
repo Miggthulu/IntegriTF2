@@ -105,11 +105,12 @@ public void OnPluginStart()
 	CreateTimer(5.0, Timer_CheckClientConVars);
 	
 	//CheckBanlistApi();
-	
+	/**
 	if (LibraryExists("updater"))
 	{
 		Updater_AddPlugin(UPDATE_URL);
 	}
+	**/
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
 }

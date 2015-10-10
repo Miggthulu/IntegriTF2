@@ -2,11 +2,11 @@
 #include <sourcemod>
 #include <geoipcity>
 #include <socket>
-#include <smjansson>
+//#include <smjansson>
 #undef REQUIRE_PLUGIN
 #include <updater>
 
-#define PLUGIN_VERSION "2.0"
+#define PLUGIN_VERSION "1.9"
 
 #define CVAR_MAXLEN 64
 
@@ -18,7 +18,7 @@
 #define MAX_URL_LENGTH 256
 #define API_BANLIST_URL "http://kimonolabs.com/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
 
-#include "helpers/download_socket.sp"
+//#include "helpers/download_socket.sp"
 #include "helpers/filesys.sp"
 
 public Plugin myinfo = {
@@ -104,12 +104,13 @@ public void OnPluginStart()
 	
 	CreateTimer(5.0, Timer_CheckClientConVars);
 	
+	/**
 	CheckBanlistApi();
-	
 	if (LibraryExists("updater"))
 	{
 		Updater_AddPlugin(UPDATE_URL);
 	}
+	**/
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
 }
@@ -203,6 +204,7 @@ public void OnPluginEnd()
 	PrintToChatAll("[IntegriTF2] has been unloaded.");
 }
 
+/**
 void CheckBanlistApi()
 {
 	Download_Socket(API_BANLIST_URL, "ugc_banlist.json");
@@ -211,6 +213,7 @@ void CheckBanlistApi()
 	//SocketSetArg(hSocket, hFile);
 	//SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "kimonolabs.com", 80);
 }
+**/
 
 void DownloadEnded(bool successful, char error[]="")
 {
