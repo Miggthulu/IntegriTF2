@@ -1,0 +1,32 @@
+"Updater"
+{
+	"Information"
+	{
+		"Version"
+		{
+			"Latest"	"2.1"
+		}
+		
+		"Notes"	"More info @ miggthulu.com/integritf2    Changes in 2.1:"
+		"Notes"	"Integrated SMAC Anti-Wallhacks"
+	}
+	
+	"Files"
+	{
+		"Plugin"	"Path_SM/plugins/integriTF2.smx"	
+		"Source"	"Path_SM/scripting/integriTF2.sp"
+		"Plugin"	"/cfg/ugc_hl_base.cfg"
+		"Plugin"	"/cfg/ugc_6v_base.cfg"
+		"Plugin"	"/cfg/ugc_4v_base.cfg"
+		"Plugin"	"/cfg/pure_server_whitelist.txt"
+		"Plugin"	"Path_SM/plugins/smac.smx"
+		"Plugin"	"Path_SM/plugins/smac_wallhack.smx"
+		"Plugin"	"Path_SM/scripting/include/colors.inc"
+		"Plugin"	"Path_SM/scripting/include/smac.inc"
+		"Plugin"	"Path_SM/scripting/include/smac_stocks.inc"
+		"Plugin"	"Path_SM/scripting/include/smac_wallhack.inc"
+		"Plugin"	"Path_SM/translations/smac.phrases.txt"
+		"Source"	"Path_SM/scripting/smac.sp"
+		"Source"	"Path_SM/scripting/smac_wallhack.sp"
+	}
+}

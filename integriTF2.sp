@@ -6,7 +6,7 @@
 #undef REQUIRE_PLUGIN
 #include <updater>
 
-#define PLUGIN_VERSION "1.9"
+#define PLUGIN_VERSION "2.3"
 
 #define CVAR_MAXLEN 64
 
@@ -71,7 +71,10 @@ void resetConVar(ConVar convar)
 
 public void OnPluginStart()
 {
-	/* Hook Round Start event for a tournament mode game */
+	/** Starts IP Logging **/
+	SetConVarInt(FindConVar("sm_paranoia_ip_verbose"), 1, true);
+
+	/** Hook Round Start event for a tournament mode game **/
 	HookEvent("teamplay_round_start", EventRoundStart);
 	HookEvent("player_spawn", Event_Player_Spawn);
 	
