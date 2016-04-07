@@ -23,7 +23,7 @@
 
 public Plugin myinfo = {
 	name        = "IntegriTF2",
-	author      = "Miggy, mizx and friends",
+	author      = "Miggy, mizx and Dr.McKay",
 	description = "Plugin that verifies the integrity of the Server and Player settings.",
 	version		= PLUGIN_VERSION,
 	url         = "miggthulu.com"
@@ -107,13 +107,13 @@ public void OnPluginStart()
 	
 	CreateTimer(5.0, Timer_CheckClientConVars);
 	
-	//CheckBanlistApi();
-	/**
+	CheckBanlistApi();
+
 	if (LibraryExists("updater"))
 	{
 		Updater_AddPlugin(UPDATE_URL);
 	}
-	**/
+
 
 	PrintToChatAll("[IntegriTF2] has been loaded.");
 }

@@ -1,0 +1,2 @@
+Place the contents of your addons folder here inside the addons folder on your server.
+Hit Yes when prompted to Merge Folders and when to Copy & Replace files.
