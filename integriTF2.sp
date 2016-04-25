@@ -11,17 +11,24 @@
 #define CVAR_MAXLEN 64
 
 /**
-//Ignore
+//Ignore, holding onto for POVminder
 #define API_ROSTER_HOST "ugcleague.com"
 #define API_ROSTER_DIR "/api/api.php?key={key}&player={id64}"
 #define API_ROSTER_URL "http://www.ugcleague.com/api/api.php?key={key}&player={id64}"
 **/
 
+//Current Banlist API info
+#define API_BANLIST_HOST "ugcleague.com"
+#define API_BANLIST_DIR "/api/api.php?key={key}&ban_list"
+#define API_BANLIST_URL "http://www.ugcleague.com/api/api.php?key={key}&ban_list"
 
+
+/**
+//Old API, ignore
 #define API_BANLIST_HOST "ugcleague.com"
 #define API_BANLIST_DIR "/json_ban_info.cfm"
 #define API_BANLIST_URL "http://www.ugcleague.com/json_ban_info.cfm"
-
+**/
 
 #define MAX_URL_LENGTH 256
 #define UPDATE_URL "http://miggthulu.com/integritf2/updatefile.txt"
@@ -231,10 +238,10 @@ public void OnPluginEnd()
 void CheckBanlistApi()
 {
 	Download_Socket(API_BANLIST_URL, "ugc_banlist.json");
-	new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
-
-	SocketSetArg(hSocket, hFile);
-	SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "ugcleague.com", 80);
+	
+	//new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
+	//SocketSetArg(hSocket, hFile);
+	//SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "ugcleague.com", 80);
 }
 
 
