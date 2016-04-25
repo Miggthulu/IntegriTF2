@@ -2,7 +2,7 @@
 #include <sourcemod>
 #include <geoipcity>
 #include <socket>
-//#include <smjansson>
+#include <smjansson>
 #undef REQUIRE_PLUGIN
 #include <updater>
 
@@ -10,20 +10,30 @@
 
 #define CVAR_MAXLEN 64
 
-#define API_BANLIST_HOST "kimonolabs.com"
-#define API_BANLIST_DIR "/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
+/**
+//Ignore
+#define API_ROSTER_HOST "ugcleague.com"
+#define API_ROSTER_DIR "/api/api.php?key={key}&player={id64}"
+#define API_ROSTER_URL "http://www.ugcleague.com/api/api.php?key={key}&player={id64}"
+**/
 
-#define UPDATE_URL "http://miggthulu.com/integritf2/updatefile.txt"
+
+#define API_BANLIST_HOST "ugcleague.com"
+#define API_BANLIST_DIR "/json_ban_info.cfm"
+#define API_BANLIST_URL "http://www.ugcleague.com/json_ban_info.cfm"
+
 
 #define MAX_URL_LENGTH 256
-#define API_BANLIST_URL "http://kimonolabs.com/api/efs80kbe?apikey=mwluOVdQfLoQZ1kkWFujhsJzvFKXgc8n"
+#define UPDATE_URL "http://miggthulu.com/integritf2/updatefile.txt"
 
-//#include "helpers/download_socket.sp"
-#include "helpers/filesys.sp"
+
+
+#include helpers/download_socket.sp
+#include helpers/filesys.sp
 
 public Plugin myinfo = {
 	name        = "IntegriTF2",
-	author      = "Miggy, mizx and Dr.McKay",
+	author      = "Miggy, Mizx and Dr.McKay",
 	description = "Plugin that verifies the integrity of the Server and Player settings.",
 	version		= PLUGIN_VERSION,
 	url         = "miggthulu.com"
@@ -106,15 +116,11 @@ public void OnPluginStart()
 	initConVar(g_CvarDroppedWeaponLifetime);
 
 	CreateTimer(5.0, Timer_CheckClientConVars);
-<<<<<<< HEAD
+
 	
 	CheckBanlistApi();
 
-=======
-
-	//CheckBanlistApi();
-	/**
->>>>>>> origin/2.0
+	
 	if (LibraryExists("updater"))
 	{
 		Updater_AddPlugin(UPDATE_URL);
@@ -184,6 +190,8 @@ public Action Event_Player_Spawn(Handle event, const char[] name, bool dontBroad
 	return Plugin_Continue;
 }
 
+
+
 public void ClientConVar(QueryCookie cookie, int client, ConVarQueryResult result, const char[] cvarName, const char[] cvarValue, any value)
 {
 	if (client == 0 || !IsClientInGame(client))
@@ -195,6 +203,10 @@ public void ClientConVar(QueryCookie cookie, int client, ConVarQueryResult resul
 		PrintToChatAll("[IntegriTF2] Player %N is using CVar %s = %s, potentially exploiting.", client, cvarName, cvarValue);
 }
 
+
+
+
+
 public Action:Timer_CheckClientConVars(Handle:timer)
 {
 	for (new client = 1; client <= MaxClients; client++)
@@ -202,6 +214,8 @@ public Action:Timer_CheckClientConVars(Handle:timer)
 		if (IsClientInGame(client) && !IsFakeClient(client) && IsPlayerAlive(client))
 		{
 			QueryClientConVar(client, "r_drawothermodels", ConVarQueryFinished:ClientConVar, client);
+			//QueryClientConVar(client, "glow_outline_effect_enable", ConVarQueryFinished:ClientConVar2, client);
+			//QueryClientConVar(client, "enable_skeleton_draw", ConVarQueryFinished:ClientConVar3, client);
 		}
 	}
 
@@ -213,16 +227,17 @@ public void OnPluginEnd()
 	PrintToChatAll("[IntegriTF2] has been unloaded.");
 }
 
-/**
+
 void CheckBanlistApi()
 {
 	Download_Socket(API_BANLIST_URL, "ugc_banlist.json");
-	//new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
+	new Handle:hSocket = SocketCreate(SOCKET_TCP, OnSocketError);
 
-	//SocketSetArg(hSocket, hFile);
-	//SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "kimonolabs.com", 80);
+	SocketSetArg(hSocket, hFile);
+	SocketConnect(hSocket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "ugcleague.com", 80);
 }
-**/
+
+
 
 void DownloadEnded(bool successful, char error[]="")
 {
@@ -231,3 +246,4 @@ void DownloadEnded(bool successful, char error[]="")
 		return;
 	}
 }
+

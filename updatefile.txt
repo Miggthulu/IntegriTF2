@@ -16,8 +16,6 @@
 
 		"Plugin"	"Path_SM/plugins/integriTF2.smx"
 		"Source"	"Path_SM/scripting/integriTF2.sp"
-		"Plugin"	"Path_SM/plugins/smac_wallhack.smx"
-		"Source"	"Path_SM/scripting/smac_wallhack.sp"
 		"Plugin"	"Path_SM/plugins/smac.smx"
 		"Source"	"Path_SM/scripting/smac.sp"
 		"Plugin"	"Path_SM/translations/smac.phrases.txt"
