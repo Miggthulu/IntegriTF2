@@ -58,6 +58,9 @@ ConVar g_CvarCloakInvisTime;
 ConVar g_CvarCloakUnInvisTime;
 ConVar g_CvarDroppedWeaponLifetime;
 
+//Banlist API Cvar
+new Handle:g_Cvar_API = INVALID_HANDLE;
+
 int g_TeleFovStart = 90;
 int g_DroppedWeaponLifetime = 0;
 
@@ -88,6 +91,17 @@ void resetConVar(ConVar convar)
 
 public void OnPluginStart()
 {
+
+	/**Reads Ban List API Key**/
+	//THIS CREATES A FILE CALLED "IntegriTF2api.cfg" IN YOUR tf/cfg/sourcemod/ folder. Place your API keys here
+	//In the IntegriTF2api.cfg write the following line:        sm_ugcbanapi "PLACEYOURAPIKEYHERE"
+	g_Cvar_API = CreateConVar("sm_ugcbanapi", "", "Place your Api key here");
+	AutoExecConfig(true, "IntegriTF2api");
+	
+	//GetConVarString(g_Cvar_API, <string buffer>, <string buffer length);
+
+
+
 	/** Starts IP Logging **/
 	SetConVarInt(FindConVar("sm_paranoia_ip_verbose"), 1, true);
 
