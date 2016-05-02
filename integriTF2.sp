@@ -60,6 +60,7 @@ ConVar g_CvarDroppedWeaponLifetime;
 
 //Banlist API Cvar
 new Handle:g_Cvar_API = INVALID_HANDLE;
+new Handle:g_hPlayerList;
 
 int g_TeleFovStart = 90;
 int g_DroppedWeaponLifetime = 0;
@@ -197,6 +198,59 @@ public void OnClientAuthorized(int client, const char[] sAuth)
 		PrintToChatAll("IntegriTF2: Detecting player %N is using a proxy.", client);
 	}
 }
+
+//**												**//
+//					Player Ban Check				  //
+//**												**//
+
+if (g_hPlayerList != INVALID_HANDLE) {
+        CloseHandle(g_hPlayerList);
+    }
+g_hPlayerList = CreateArray(64);
+
+    // open config
+new Handle:hKV = CreateKeyValues("root");
+if (!FileToKeyValues(hKV, sPath)) {
+        CloseHandle(hKV);
+        LogError("Cannot load data from file '%s' !", sPath);
+        return;
+}
+
+    // read condig
+if (!KvGotoFirstSubKey(hKV, false)) {
+        LogError("Cannot load first key from file '%s' !", sPath);
+        CloseHandle(hKV);
+        return;
+}
+
+
+new String:sSteamID[64];
+do
+    {
+        KvGetSectionName(hKV, sSteamID, sizeof(sSteamID));
+        //KvGetString(hKV, NULL_STRING, sIP, sizeof(sIP));
+        
+        //LogMessage("SteamID = '%s'", sSteamID);
+        
+        PushArrayString(g_hPlayerList, sSteamID);
+        //PushArrayString(g_hPlayerList, sIP);
+} while (KvGotoNextKey(hKV, false));
+
+CloseHandle(hKV);
+
+public OnClientAuthorized(iClient, const String:sAuth[])
+{
+new String:sIP[64];
+GetClientIP(iClient, sIP, sizeof(sIP));
+
+if (FindStringInArray(g_hPlayerList, sAuth) != -1) {
+        // connected player's ip or steamid is in config
+PrintToChatAll("%N is currently Banned in UGC", iClient);
+}
+
+}
+//**												**//
+//**												**//
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
